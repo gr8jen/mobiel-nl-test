@@ -4,23 +4,23 @@ This repo is test to create a cluster with terraform and deploy a (RoR) instance
 This sample repo also creates a VPC and subnet for the GKE cluster.
 At the end of this test, you will know more about Terraform, Kubernetes (on Google Cloud)
 
-#Install terraform
+# Install terraform
 https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/gcp-get-started
 
-#Create project
+# Create project
 Go to https://console.cloud.google.com/projectcreate
 
 fill in a project name, like :mobiel-nl-test
 
 click "Create" 
 
-#Enable API's
+# Enable API's
 Go to: https://console.cloud.google.com/apis/dashboard
 enable:
  - Compute Engine API
  - Kubernetes Engine API
 
-#Add service account
+# Add service account
 We want to enable access to our project when executing commands.
 
 Log into your Google Cloud Console, navigate to APIs and Services 
@@ -34,12 +34,12 @@ keep type on " json"
 save as 'mobiel-nl-test.json' in root of project
 
 
-#Install gcloud CLI
+# Install gcloud CLI
 https://cloud.google.com/sdk/docs/install
-#initialize
+# Initialize
 https://cloud.google.com/sdk/docs/initializing
 
-#create repository
+# Create repository
 Run the following command to create a repository named hello-repo in the same region as your cluster:
 ```
 gcloud artifacts repositories create hello-repo \
@@ -52,7 +52,7 @@ gcloud artifacts repositories create hello-repo \
 
 `artifactregistry.googleapis.com` may be enabled when asked
 
-#build image and push to repository
+# Build image and push to repository
 ```
  gcloud builds submit \
     --tag europe-west4-docker.pkg.dev/PROJECT_ID/hello-repo/helloworld-gke src/.
@@ -78,7 +78,7 @@ kubectl create secret docker-registry gcr-json-key
 ```
 Replace ~/json-key-file.json with the path to your json key file.
 
-Be carefull with spaces and change of `"` and '--', when modified it will not succeed.
+Be careful with spaces and change of `"` and '--', when modified it will not succeed.
 
 Finally, you have to add the secret to your default service account as `ImagePullSecrets`, so it will actually be used, when Kubernetes spins up a new pod with this service account.
 ```
@@ -86,13 +86,13 @@ kubectl patch serviceaccount default \
 -p '{"imagePullSecrets": [{"name": "gcr-json-key"}]}'
 ```
 
-check if imagePullSecrets is enabled:
+Check if imagePullSecrets is enabled:
 
 ```
 kubectl get serviceaccount default -o yaml
 ```
 
-#Create the cluster (and deploy resources and load balancer)
+# Create the cluster (and deploy resources and load balancer)
 ```
 terraform init
 ```
@@ -104,12 +104,12 @@ terraform apply -auto-approve
 ```
 
 
-#Deploy an app
-for now the deployment is not working in terraform, so we try with kubectl
+# Deploy an app
+For now the deployment is not working in terraform, so we try with kubectl
 ```
 kubectl apply -f deployment.yaml
 ```
-#Deploy a lood balancer
+#Deploy a load balancer
 For now the deployment of a load balancer service is not working in terraform, so we try with kubectl
 ```
 kubectl apply -f deployment.yaml
